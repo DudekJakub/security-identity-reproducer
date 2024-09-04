@@ -15,24 +15,24 @@ class TestAugmentor(
 ) : SecurityIdentityAugmentor {
 
     /** A) Below version of augment works WITH DynamoDb call and it throws ContextNotActiveException **/
-    override fun augment(identity: SecurityIdentity, context: AuthenticationRequestContext): Uni<SecurityIdentity> {
-        return testService.getUser()
-            .map { user ->
-                if (user == null) return@map identity
-                val builder = QuarkusSecurityIdentity.builder(identity)
-                builder.addRoles(user.roles)
-                builder.build()
-            }
-    }
+//    override fun augment(identity: SecurityIdentity, context: AuthenticationRequestContext): Uni<SecurityIdentity> {
+//        return testService.getUser()
+//            .map { user ->
+//                if (user == null) return@map identity
+//                val builder = QuarkusSecurityIdentity.builder(identity)
+//                builder.addRoles(user.roles)
+//                builder.build()
+//            }
+//    }
 
     /** B) Below version of augment works without DynamoDb call, and it allows to get access to GET /hello endpoint **/
-//    override fun augment(identity: SecurityIdentity, context: AuthenticationRequestContext): Uni<SecurityIdentity> {
-//        return uni {
-//            QuarkusSecurityIdentity.builder(identity)
-//                .addRoles(setOf("admin"))
-//                .build()
-//        }
-//    }
+    override fun augment(identity: SecurityIdentity, context: AuthenticationRequestContext): Uni<SecurityIdentity> {
+        return uni {
+            QuarkusSecurityIdentity.builder(identity)
+                .addRoles(setOf("admin"))
+                .build()
+        }
+    }
 
     /** C) Below version of augment works without DynamoDb call, and it does not allow to get access to GET /hello endpoint **/
 //    override fun augment(identity: SecurityIdentity, context: AuthenticationRequestContext): Uni<SecurityIdentity> {
