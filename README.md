@@ -1,67 +1,43 @@
-# security-test
+**Quarkus 3.14.1**
+<br>
+**JAVA 21 (with kotlin plugin 2.0.20)**
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+**CORE DEPENDENCIES:**
+<br>
+implementation("io.quarkus:quarkus-security")
+<br>
+implementation("io.quarkus:quarkus-smallrye-context-propagation")
+<br>
+implementation("io.quarkiverse.amazonservices:quarkus-amazon-dynamodb-enhanced:2.16.2")
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
 
-## Running the application in dev mode
+To run it:
+<br>
+**1)** Need Docker
+<br><br>
+**2)** Run command [ **docker run -p 8000:8000 amazon/dynamodb-local**  ]
+<br><br>
+**3)** Find file [ **dynamodbconfig_security.json** ]. File is located in [ **src/main/resources** ]
+<br><br>
+**4)** Run command on this file [ **aws dynamodb create-table --cli-input-json file://dynamodbconfig_security.json --endpoint-url http://localhost:8000** ]
+<br><br>
+**5)** Verify if table has been created with command [ **aws dynamodb scan --table-name Table --endpoint-url http://localhost:8000** ]
+<br><br>
+**6)** Run application [ **port is set to 9083** ]
+<br><br>
+**7)** Create user with endpoint  [ **POST http://localhost:9083/hello/save** ]
+<br><br>
+**8)** Check if you have access to [ **GET http://localhost:9083/hello** ]. You should have access and you should see "hello" response.
+<br><br>
+**9)** Go to [ **src/main/kotlin/security/TestAugmentor.kt** ] and switch from **B** version of augment function to **A** version.
+<br><br>
+**10)** Hit [ **GET http://localhost:9083/hello** ] once again and now you should see [ **ContextNotActiveException** ]
 
-You can run your application in dev mode that enables live coding using:
 
-```shell script
-./gradlew quarkusDev
-```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
 
-## Packaging and running the application
 
-The application can be packaged using:
 
-```shell script
-./gradlew build
-```
 
-It produces the `quarkus-run.jar` file in the `build/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `build/quarkus-app/lib/` directory.
 
-The application is now runnable using `java -jar build/quarkus-app/quarkus-run.jar`.
 
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./gradlew build -Dquarkus.package.jar.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar build/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./gradlew build -Dquarkus.native.enabled=true
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./gradlew build -Dquarkus.native.enabled=true -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./build/security-test-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/gradle-tooling>.
-
-## Related Guides
-
-- OpenID Connect ([guide](https://quarkus.io/guides/security-openid-connect)): Verify Bearer access tokens and authenticate users with Authorization Code Flow
-- SmallRye Context Propagation ([guide](https://quarkus.io/guides/context-propagation)): Propagate contexts between managed threads in reactive applications
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
