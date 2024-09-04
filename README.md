@@ -27,11 +27,13 @@ To run it:
 <br><br>
 **7)** Create user with endpoint  [ **POST http://localhost:9083/hello/save** ]
 <br><br>
-**8)** Check if you have access to [ **GET http://localhost:9083/hello** ]. You should have access and you should see "hello" response.
+**8)** Verify if user has been created with command [ **aws dynamodb scan --table-name Table --endpoint-url http://localhost:8000** ]. You should see user with **email: "jakub@gmail.com"** and **roles: ["admin"]**.
 <br><br>
-**9)** Go to [ **src/main/kotlin/security/TestAugmentor.kt** ] and switch from **B** version of augment function to **A** version.
+**9)** Check if you have access to [ **GET http://localhost:9083/hello** ]. You should have access and you should see "hello" response.
 <br><br>
-**10)** Hit [ **GET http://localhost:9083/hello** ] once again and now you should see [ **ContextNotActiveException** ]
+**10)** Go to [ **src/main/kotlin/security/TestAugmentor.kt** ] and switch from **B** version of augment function to **A** version.
+<br><br>
+**11)** Hit [ **GET http://localhost:9083/hello** ] once again and now you should see [ **ContextNotActiveException** ]
 
 
 
