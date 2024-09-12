@@ -8,6 +8,7 @@ import jakarta.ws.rs.Path
 import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.MediaType.TEXT_PLAIN
 import security.utils.TestService
+import security.utils.User
 
 @Path("/hello")
 class TestController(
@@ -15,10 +16,10 @@ class TestController(
 ) {
 
     @GET
-    @RolesAllowed("admin")
+//    @RolesAllowed("admin")
     @Produces(TEXT_PLAIN)
-    fun hello1(): String {
-        return "Hello"
+    fun hello1(): Uni<User?> {
+        return testService.getUser()
     }
 
     @POST
